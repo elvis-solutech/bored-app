@@ -22,4 +22,4 @@ samples, guidance on mobile development, and a full API reference.
 
 
 ## Screenshot
-![Screenshot](http://github.com/ElNgatia/bored-app/screenshot.jpg?raw=true)
+![Screenshot](http://github.com/ElNgatia/bored-app/blob/main/boredapp.jpg?raw=true)
