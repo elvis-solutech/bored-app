@@ -1,8 +1,10 @@
 import 'package:bored_app/bored_api.dart';
 import 'package:bored_app/home.dart';
+import 'package:bored_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -22,18 +24,7 @@ class MyApp extends StatelessWidget {
         future: BoredApi().fetchActivity(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(
-                child: Text(
-                  'Loading...',
-                  style: TextStyle(
-                    fontFamily: 'Quattrocento-Sans',
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
+            return const SplashScreen();
           } else {
             return const Home();
           }
