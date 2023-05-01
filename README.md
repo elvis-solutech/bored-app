@@ -20,3 +20,6 @@ samples, guidance on mobile development, and a full API reference.
 - Consumes boredapi and gives the output in a basic ui
 - A simple button regenerates the output
 
+
+## Screenshot
+![Screenshot](http://github.com/ElNgatia/bored-app/screenshot.jpg?raw=true)
