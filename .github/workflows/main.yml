@@ -18,6 +18,7 @@ jobs:
           with:
             flutter-version: '2.2.3'
             channel: 'stable'
+        - run: brew upgrade dart
         - run: flutter pub get
         - run: flutter build apk
         - name: Push to Releases
