@@ -23,7 +23,7 @@ jobs:
           with:
             artifacts: "build/app/outputs/flutter-apk/app-release.apk"
             tag: Release v1.0.${( github.run_number )}
-            token: ${( secrets.TOKEN )}
+            # token: ${( secrets.TOKEN )}
 
 
 
