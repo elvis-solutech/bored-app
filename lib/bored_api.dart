@@ -1,13 +1,32 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:bored_app/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:recase/recase.dart';
 
-class BoredApi {
-  final String url = 'https://www.boredapi.com/api/activity?';
+const List<String> typeList = [
+  '',
+  'education',
+  'recreational',
+  'social',
+  'diy',
+  'charity',
+  'cooking',
+  'relaxation',
+  'music',
+  'busywork'
+];
 
-  Future<Map<String, dynamic>> fetchActivity() async {
+class BoredApi {
+  Future<Map<String, dynamic>> fetchActivity(String type) async {
+    const baseUrl = 'https://www.boredapi.com/api/activity/';
+
+    final String url;
+ 
+      url = '$baseUrl?type=$type';
+    
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -19,31 +38,49 @@ class BoredApi {
 
 class BoredActivity extends StatefulWidget {
   const BoredActivity(
-      {super.key, required this.activity, required this.onRefresh});
+      {super.key,
+      required this.activity,
+      required this.onRefresh,
+      required this.dropdownButton});
   final Map<String, dynamic> activity;
   final VoidCallback onRefresh;
+  final DropdownButton dropdownButton;
 
   @override
   State<BoredActivity> createState() => _BoredActivityState();
 }
 
 class _BoredActivityState extends State<BoredActivity> {
+  late String selectedType = '';
   late BoredApi boredApi = BoredApi();
-  // Map<String, dynamic> _activity = {};
-
-  void fetchActivity() async {
-    Map<String, dynamic> activity = await boredApi.fetchActivity();
-    widget.onRefresh();
-    setState(() {
-      widget.activity.clear();
-      widget.activity.addAll(activity);
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    fetchActivity();
+    boredApi = BoredApi();
+    fetchActivity(selectedType);
+  }
+
+  void dropdownCallback(String? value) {
+    setState(() {
+      selectedType = value ?? typeList[0];
+    });
+    fetchActivity(selectedType);
+  }
+
+  // Map<String, dynamic> _activity = {};
+
+  Future fetchActivity(String selectedType) async {
+    try {
+      Map<String, dynamic> activity =
+          await boredApi.fetchActivity(selectedType);
+      widget.onRefresh();
+      setState(() {
+        widget.activity.clear();
+        widget.activity.addAll(activity);
+      });
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   @override
@@ -56,7 +93,7 @@ class _BoredActivityState extends State<BoredActivity> {
         color: const Color.fromRGBO(89, 165, 216, 100),
       ),
       child: FutureBuilder<Map<String, dynamic>>(
-        future: boredApi.fetchActivity(),
+        future: boredApi.fetchActivity(selectedType),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -76,36 +113,37 @@ class _BoredActivityState extends State<BoredActivity> {
               ),
             );
           } else {
-            Map<String, dynamic> activity = snapshot.data!;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                kTextWidget(
-                  text: 'Type'.toUpperCase(),
-                  decoration: TextDecoration.underline,
-                ),
-                kTextWidget(
-                  text: widget.activity['type'].toString().titleCase,
-                  decoration: TextDecoration.none,
-                ),
-                kTextWidget(
-                  text: 'Activity'.toUpperCase(),
-                  decoration: TextDecoration.underline,
-                ),
-                kTextWidget(
-                  text: widget.activity['activity'],
-                  decoration: TextDecoration.none,
-                ),
-                kTextWidget(
-                  text: 'Participants'.toUpperCase(),
-                  decoration: TextDecoration.underline,
-                ),
-                kTextWidget(
-                  text: widget.activity['participants'].toString(),
-                  decoration: TextDecoration.none,
-                ),
-              ],
-            );
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  kTextWidget(
+                    text: 'Type'.toUpperCase(),
+                    decoration: TextDecoration.underline,
+                  ),
+                  widget.dropdownButton,
+                  kTextWidget(
+                    text: widget.activity['type'].toString().titleCase,
+                    decoration: TextDecoration.none,
+                  ),
+                  kTextWidget(
+                    text: 'Activity'.toUpperCase(),
+                    decoration: TextDecoration.underline,
+                  ),
+                  kTextWidget(
+                    text: widget.activity['activity'],
+                    decoration: TextDecoration.none,
+                  ),
+                  kTextWidget(
+                    text: 'Participants'.toUpperCase(),
+                    decoration: TextDecoration.underline,
+                  ),
+                  kTextWidget(
+                    text: widget.activity['participants'].toString(),
+                    decoration: TextDecoration.none,
+                  ),
+                ],
+              );
+            
           }
         },
       ),

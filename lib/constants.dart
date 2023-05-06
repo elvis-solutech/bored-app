@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 
 class kTextWidget extends StatefulWidget {
@@ -16,10 +18,12 @@ class _kTextWidgetState extends State<kTextWidget> {
       widget.text,
       textAlign: TextAlign.center,
       style: TextStyle(
+
         decoration: widget.decoration,
         fontFamily: 'Quattrocento-Sans',
         fontSize: 20.0,
         color: Colors.white,
+        
       ),
     );
   }

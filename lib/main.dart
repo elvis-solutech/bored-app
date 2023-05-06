@@ -1,5 +1,3 @@
-import 'package:bored_app/bored_api.dart';
-import 'package:bored_app/home.dart';
 import 'package:bored_app/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,16 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: FutureBuilder(
-        future: BoredApi().fetchActivity(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          } else {
-            return const Home();
-          }
-        },
-      ),
+      home: const SplashScreen(),
+
     );
   }
 }

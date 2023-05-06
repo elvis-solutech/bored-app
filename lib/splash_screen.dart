@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     preCacheImageAsset();
     Timer(
-      const Duration(seconds: 5),
+      const Duration(seconds: 8),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
