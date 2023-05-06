@@ -1,5 +1,7 @@
 # Bored App
 
+[![build and release](https://github.com/ElNgatia/bored-app/actions/workflows/ci.yml/badge.svg)](https://github.com/ElNgatia/bored-app/actions/workflows/ci.yml)
+
 A new Flutter project.
 
 ## Getting Started
