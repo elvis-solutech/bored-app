@@ -24,9 +24,9 @@ class BoredApi {
     const baseUrl = 'https://www.boredapi.com/api/activity/';
 
     final String url;
- 
-      url = '$baseUrl?type=$type';
-    
+
+    url = '$baseUrl?type=$type';
+
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -83,6 +83,12 @@ class _BoredActivityState extends State<BoredActivity> {
     } catch (e) {}
   }
 
+  Future trackActivity(String activity) async {
+    ChangeNotifier(
+      
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -113,37 +119,36 @@ class _BoredActivityState extends State<BoredActivity> {
               ),
             );
           } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  kTextWidget(
-                    text: 'Type'.toUpperCase(),
-                    decoration: TextDecoration.underline,
-                  ),
-                  widget.dropdownButton,
-                  kTextWidget(
-                    text: widget.activity['type'].toString().titleCase,
-                    decoration: TextDecoration.none,
-                  ),
-                  kTextWidget(
-                    text: 'Activity'.toUpperCase(),
-                    decoration: TextDecoration.underline,
-                  ),
-                  kTextWidget(
-                    text: widget.activity['activity'],
-                    decoration: TextDecoration.none,
-                  ),
-                  kTextWidget(
-                    text: 'Participants'.toUpperCase(),
-                    decoration: TextDecoration.underline,
-                  ),
-                  kTextWidget(
-                    text: widget.activity['participants'].toString(),
-                    decoration: TextDecoration.none,
-                  ),
-                ],
-              );
-            
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                kTextWidget(
+                  text: 'Type'.toUpperCase(),
+                  decoration: TextDecoration.underline,
+                ),
+                widget.dropdownButton,
+                kTextWidget(
+                  text: widget.activity['type'].toString().titleCase,
+                  decoration: TextDecoration.none,
+                ),
+                kTextWidget(
+                  text: 'Activity'.toUpperCase(),
+                  decoration: TextDecoration.underline,
+                ),
+                kTextWidget(
+                  text: widget.activity['activity'],
+                  decoration: TextDecoration.none,
+                ),
+                kTextWidget(
+                  text: 'Participants'.toUpperCase(),
+                  decoration: TextDecoration.underline,
+                ),
+                kTextWidget(
+                  text: widget.activity['participants'].toString(),
+                  decoration: TextDecoration.none,
+                ),
+              ],
+            );
           }
         },
       ),

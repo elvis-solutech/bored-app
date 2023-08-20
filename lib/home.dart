@@ -1,4 +1,6 @@
+import 'package:bored_app/likes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'bored_api.dart';
 
 class Home extends StatefulWidget {
@@ -12,11 +14,25 @@ class _HomeState extends State<Home> {
   Map<String, dynamic> _activity = {};
   String selectedType = '';
 
+  void trackActivity() {
+    final activitiesModel =
+        Provider.of<ActivitiesModel>(context, listen: false);
+    final trackedActivity = {
+      'title': _activity['type'],
+      'subtitle': _activity['activity'],
+      // 'participant': _activity['participants'],
+    };
+    activitiesModel.setActivity(trackedActivity);
+    print(trackedActivity);
+  }
+
   Future<void> refreshActivity() async {
     final BoredApi boredApi = BoredApi();
     Map<String, dynamic> activity = await boredApi.fetchActivity(selectedType);
     setState(() {
       _activity = activity;
+
+      print(_activity);
     });
   }
 
@@ -91,12 +107,12 @@ class _HomeState extends State<Home> {
               dropdownButton: DropdownButton(
                 underline: Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(
-                          color: Colors.white, style: BorderStyle.solid)),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                        color: Colors.white, style: BorderStyle.solid),
+                  ),
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(30)),
-
                 icon: const Icon(
                   Icons.arrow_drop_down_circle_rounded,
                   color: Colors.white,
@@ -143,27 +159,46 @@ class _HomeState extends State<Home> {
               ),
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(300, 50),
-                  shape: const StadiumBorder(),
-                  backgroundColor: const Color.fromRGBO(56, 111, 164, 100)),
-              onPressed: () {
-                setState(() {
-                  refreshActivity();
-                });
-              },
-              child: const Text(
-                'RANDOMIZE',
-                style: TextStyle(
-                  fontFamily: 'Ovo',
-                  fontSize: 20.0,
-                ),
+            Expanded(
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 50),
+                        shape: const StadiumBorder(),
+                        backgroundColor:
+                            const Color.fromRGBO(56, 111, 164, 100)),
+                    onPressed: () {
+                      setState(() {
+                        refreshActivity();
+                      });
+                    },
+                    child: const Text(
+                      'RANDOMIZE',
+                      style: TextStyle(
+                        fontFamily: 'Ovo',
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: trackActivity,
+                    icon: const Icon(Icons.favorite),
+                    label: const Text('Track'),
+                  )
+                ],
               ),
-            )
+            ),
+            FloatingActionButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Favorites()));})
           ],
         ),
       ),
     );
   }
 }
+
+
+// change notifier, changenotifier provider, listeners

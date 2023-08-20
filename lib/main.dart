@@ -1,9 +1,15 @@
+import 'package:bored_app/likes.dart';
 import 'package:bored_app/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) {
+        return ActivitiesModel();
+      },
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +25,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SplashScreen(),
-
     );
   }
 }

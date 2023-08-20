@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bored_app/home.dart';
+import 'package:bored_app/likes.dart';
 import 'package:flutter/material.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
@@ -23,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     preCacheImageAsset();
     Timer(
-      const Duration(seconds: 8),
+      const Duration(seconds: 1),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
