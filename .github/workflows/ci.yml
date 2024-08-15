@@ -29,7 +29,6 @@ jobs:
           with:
             artifacts: "build/app/outputs/flutter-apk/app-release.apk"
             token: ${{ secrets.TOKEN }}
-            tag: V1.0.2
 
 
 
