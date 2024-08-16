@@ -22,14 +22,18 @@ jobs:
           uses: subosito/flutter-action@v2
           with:
             channel: 'stable'
+        - name: Set App Version
+          run: |
+            chmod +x ${GITHUB_WORKSPACE}/.github/workflows/scripts/set_app_version.sh
+            bash ${GITHUB_WORKSPACE}/.github/workflows/scripts/set_app_version.sh
         - run: flutter pub get
         - run: flutter build apk
-        - name: Release
-          uses: ncipollo/release-action@v1
-          with:
-            artifacts: "build/app/outputs/flutter-apk/app-release.apk"
-            token: ${{ secrets.TOKEN }}
-            tag: v1.0.3
+        # - name: Release
+        #   uses: ncipollo/release-action@v1
+        #   with:
+        #     artifacts: "build/app/outputs/flutter-apk/app-release.apk"
+        #     token: ${{ secrets.TOKEN }}
+        #     tag: v1.0.3
 
 
 
